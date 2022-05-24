@@ -23,5 +23,7 @@ getCommand handlers = \case
 
 runCommand :: Action -> IO ()
 runCommand = \case
-  Shell cmd -> void . Proc.spawnCommand $ cmd
+  Shell cmd -> void . Proc.createProcess . setsid . Proc.shell $ cmd
+    where
+      setsid p = p {Proc.new_session = True}
   Action io -> io
