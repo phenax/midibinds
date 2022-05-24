@@ -14,6 +14,7 @@ build-type:     Simple
 
 library
   exposed-modules:
+      Command
       Main
   other-modules:
       Paths_midi_keyboard_shortcuts
@@ -33,6 +34,7 @@ library
 executable midiactions
   main-is: Main.hs
   other-modules:
+      Command
       Paths_midi_keyboard_shortcuts
   hs-source-dirs:
       src/

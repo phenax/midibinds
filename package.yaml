@@ -44,15 +44,3 @@ executables:
     main: Main.hs
     source-dirs:
       - src/
-
-# tests:
-#   efyu-test:
-#     main: _main.hs
-#     dependencies:
-#       - hspec
-#       - hspec-megaparsec
-#       - directory
-#       # - hspec-golden
-#     source-dirs:
-#       - tests/
-#       - src/
