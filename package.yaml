@@ -1,6 +1,6 @@
 name: midi-keyboard-shortcuts
 
-cabal-version: '>= 2.0'
+# cabal-version: 2.0
 
 version: 0.1.0.0
 license:             MIT
@@ -10,6 +10,7 @@ maintainer:          phenax5@gmail.com
 build-type:          Simple
 
 ghc-options:
+  -Wall
   -Wdefault
   -Wextra
   -Wno-unused-do-bind
@@ -18,14 +19,16 @@ ghc-options:
 
 dependencies:
   - base
+  - process
   - PortMidi
   - PortMidi-simple
   # - containers
   # - text
   # - transformers
 
-# default-extensions:
-#   - LambdaCase
+default-extensions:
+  - LambdaCase
+  - NamedFieldPuns
 #   - QuasiQuotes
 #   - TupleSections
 #   - FlexibleInstances
