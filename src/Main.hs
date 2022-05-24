@@ -5,8 +5,11 @@ module Main where
 import Control.Concurrent (threadDelay)
 import Control.Monad (forever, void)
 import Data.List (find)
+import Data.Maybe (isNothing)
+import qualified Sound.PortMidi as Device (DeviceInfo (..))
 import Sound.PortMidi.Simple (ChannelMessage (..), key)
 import qualified Sound.PortMidi.Simple as Midi
+import qualified System.Environment as Env
 import qualified System.Process as Proc
 
 data MidiEvent
@@ -42,7 +45,7 @@ runCommand = \case
 onMessage :: Midi.Message -> IO ()
 onMessage = \case
   Midi.Channel _ msg -> do
-    -- print msg
+    print msg
     case getCommand msg of
       Just cmd -> runCommand cmd
       Nothing -> pure ()
@@ -50,15 +53,22 @@ onMessage = \case
 
 main :: IO ()
 main = Midi.withMidi $ do
-  devices <- Midi.getDevices
-  print devices
-  -- TODO: Show devices and pick from
+  args <- Env.getArgs
 
-  Just device <- Midi.findInputNamed "MPK Mini Mk II MIDI 1"
-  -- TODO: Show device not found error
+  inputDevices <- filter ((== True) . Device.input) . map snd <$> Midi.getDevices
+  print inputDevices
 
-  Midi.withInput device $ \stream ->
-    Midi.withReadMessages stream 256 $ \readMessages ->
-      forever $ do
-        readMessages >>= mapM_ (onMessage . snd)
-        threadDelay 1000
+  let maybeName = if null args then Nothing else Just $ head args
+  let findDevice n = find ((== n) . Device.name) inputDevices
+
+  case maybeName >>= findDevice of
+    Just (Device.DeviceInfo {Device.name}) -> do
+      putStrLn $ "Searching for device: " ++ name
+      Just device <- Midi.findInputNamed name
+
+      Midi.withInput device $ \stream ->
+        Midi.withReadMessages stream 256 $ \readMessages ->
+          forever $ do
+            readMessages >>= mapM_ (onMessage . snd)
+            threadDelay 1000
+    Nothing -> putStrLn "Error: Input device not found"

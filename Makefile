@@ -3,7 +3,7 @@ hpack:
 	hpack
 
 run: hpack
-	cabal run
+	cabal run . -- "MPK Mini Mk II MIDI 1"
 
 build: hpack
 	cabal build
