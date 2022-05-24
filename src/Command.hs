@@ -9,20 +9,19 @@ data MidiEvent
   = KeyDown Int
   | KeyUp Int
 
-type Handler = (MidiEvent, Command)
+type Handler = (MidiEvent, Action)
 
-data Command
+data Action
   = Shell String
-  | Execute ()
-  deriving (Show)
+  | Action (IO ())
 
-getCommand :: [Handler] -> ChannelMessage -> Maybe Command
+getCommand :: [Handler] -> ChannelMessage -> Maybe Action
 getCommand handlers = \case
   NoteOn {key} -> snd <$> find ((\case (KeyDown n) -> key == n; _ -> False) . fst) handlers
   NoteOff {key} -> snd <$> find ((\case (KeyUp n) -> key == n; _ -> False) . fst) handlers
   _ -> Nothing
 
-runCommand :: Command -> IO ()
+runCommand :: Action -> IO ()
 runCommand = \case
   Shell cmd -> void . Proc.spawnCommand $ cmd
-  _ -> pure ()
+  Action io -> io

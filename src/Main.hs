@@ -13,7 +13,8 @@ handlers :: [Handler]
 handlers =
   [ (KeyDown 44, Shell "dmenu_run"),
     (KeyDown 51, Shell "echo \"1\n2\n3\n4\n5\" | dmenu -p 'LAMBDA > '"),
-    (KeyDown 48, Shell "st")
+    (KeyDown 48, Shell "st"),
+    (KeyDown 45, Action $ print "foobarity")
   ]
 
 onMessage :: Midi.Message -> IO ()
@@ -26,6 +27,7 @@ onMessage = \case
 
 main :: IO ()
 main = Midi.withMidi $ do
+  -- TODO: Arg parsing
   args <- Env.getArgs
 
   inputDevices <- filter ((== True) . PM.input . snd) <$> Midi.getDevices
