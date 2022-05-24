@@ -1,6 +1,6 @@
 module Main where
 
-import Command
+import Action
 import Control.Concurrent (threadDelay)
 import Control.Monad (forever)
 import Data.List (find)
@@ -11,18 +11,18 @@ import qualified System.Environment as Env
 
 handlers :: [Handler]
 handlers =
-  [ (KeyDown 44, Shell "dmenu_run"),
-    (KeyDown 51, Shell "echo \"1\n2\n3\n4\n5\" | dmenu -p 'LAMBDA > '"),
-    (KeyDown 48, Shell "st"),
-    (KeyDown 45, Action $ print "foobarity")
+  [ KeyDown 44 $ Shell $ const "dmenu_run",
+    KeyDown 51 $ Shell $ const "echo \"1\n2\n3\n4\n5\" | dmenu -p 'LAMBDA > '",
+    KeyDown 48 $ Shell $ const "st",
+    KeyDown 45 $ Action $ \_ -> print "foobarity",
+    PitchWheel $ Action $ \n -> print n
   ]
 
 onMessage :: Midi.Message -> IO ()
 onMessage = \case
   Midi.Channel _ msg -> do
     print msg
-    let cmd = getCommand handlers msg
-    maybe (pure ()) runCommand cmd
+    runHandler handlers msg
   _ -> pure ()
 
 main :: IO ()
