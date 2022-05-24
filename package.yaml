@@ -1,0 +1,55 @@
+name: midi-keyboard-shortcuts
+
+cabal-version: '>= 2.0'
+
+version: 0.1.0.0
+license:             MIT
+license-file:        LICENSE
+author:              Akshay Nair
+maintainer:          phenax5@gmail.com
+build-type:          Simple
+
+ghc-options:
+  -Wdefault
+  -Wextra
+  -Wno-unused-do-bind
+  -fwarn-tabs
+  -Wname-shadowing
+
+dependencies:
+  - base
+  - PortMidi
+  - PortMidi-simple
+  # - containers
+  # - text
+  # - transformers
+
+# default-extensions:
+#   - LambdaCase
+#   - QuasiQuotes
+#   - TupleSections
+#   - FlexibleInstances
+#   - TypeSynonymInstances
+#   - DataKinds
+#   - KindSignatures
+
+library:
+  source-dirs: src/
+
+executables:
+  midiactions:
+    main: Main.hs
+    source-dirs:
+      - src/
+
+# tests:
+#   efyu-test:
+#     main: _main.hs
+#     dependencies:
+#       - hspec
+#       - hspec-megaparsec
+#       - directory
+#       # - hspec-golden
+#     source-dirs:
+#       - tests/
+#       - src/

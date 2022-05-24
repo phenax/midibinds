@@ -1,0 +1,40 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.7.
+--
+-- see: https://github.com/sol/hpack
+
+name:           midi-keyboard-shortcuts
+version:        0.1.0.0
+author:         Akshay Nair
+maintainer:     phenax5@gmail.com
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+
+library
+  exposed-modules:
+      Main
+  other-modules:
+      Paths_midi_keyboard_shortcuts
+  hs-source-dirs:
+      src/
+  ghc-options: -Wdefault -Wextra -Wno-unused-do-bind -fwarn-tabs -Wname-shadowing
+  build-depends:
+      PortMidi
+    , PortMidi-simple
+    , base
+  default-language: Haskell2010
+
+executable midiactions
+  main-is: Main.hs
+  other-modules:
+      Paths_midi_keyboard_shortcuts
+  hs-source-dirs:
+      src/
+  ghc-options: -Wdefault -Wextra -Wno-unused-do-bind -fwarn-tabs -Wname-shadowing
+  build-depends:
+      PortMidi
+    , PortMidi-simple
+    , base
+  default-language: Haskell2010
