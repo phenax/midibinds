@@ -1,6 +1,6 @@
 module Action where
 
-import Control.Monad (filterM, void)
+import Control.Monad (forM_, void)
 import qualified Sound.PortMidi.Simple as Midi
 import qualified System.Process as Proc
 
@@ -18,21 +18,21 @@ data Action a
 
 runHandler :: [Handler] -> Midi.ChannelMessage -> IO ()
 runHandler handlers = \case
-  Midi.NoteOn {Midi.key} -> findAction_ $ \case
-    (KeyDown n action) | key == n -> True <$ runAction () action
-    _ -> pure False
-  Midi.NoteOff {Midi.key} -> findAction_ $ \case
-    (KeyUp n action) | key == n -> True <$ runAction () action
-    _ -> pure False
-  Midi.PitchWheel {Midi.pitchWheel} -> findAction_ $ \case
-    (PitchWheel action) -> True <$ runAction pitchWheel action
-    _ -> pure False
-  Midi.ControlChange {Midi.controllerValue, Midi.controllerNumber} -> findAction_ $ \case
-    (ControlChange num action) | controllerNumber == num -> True <$ runAction controllerValue action
-    _ -> pure False
+  Midi.NoteOn {Midi.key} -> mapHandlers $ \case
+    (KeyDown n action) | key == n -> runAction () action
+    _ -> pure ()
+  Midi.NoteOff {Midi.key} -> mapHandlers $ \case
+    (KeyUp n action) | key == n -> runAction () action
+    _ -> pure ()
+  Midi.PitchWheel {Midi.pitchWheel} -> mapHandlers $ \case
+    (PitchWheel action) -> runAction pitchWheel action
+    _ -> pure ()
+  Midi.ControlChange {Midi.controllerValue, Midi.controllerNumber} -> mapHandlers $ \case
+    (ControlChange num action) | controllerNumber == num -> runAction controllerValue action
+    _ -> pure ()
   _ -> pure ()
   where
-    findAction_ fn = void $ filterM fn handlers
+    mapHandlers = forM_ handlers
 
 runAction :: a -> Action a -> IO ()
 runAction val = \case

@@ -8,13 +8,14 @@ import qualified Sound.PortMidi as PM (DeviceInfo (..))
 import qualified Sound.PortMidi.Simple as Midi
 import qualified Sound.PortMidi.Simple as PM
 import qualified System.Environment as Env
+import Utils
 
 handlers :: [Handler]
 handlers =
-  [ KeyDown 44 $ Shell $ const "dmenu_run",
-    KeyDown 51 $ Shell $ const "echo \"1\n2\n3\n4\n5\" | dmenu -p 'LAMBDA > '",
-    KeyDown 48 $ Shell $ const "st",
-    KeyDown 45 $ Action $ \_ -> print "foobarity",
+  [ KeyUp 44 $ Shell $ const "xdotool key super+1",
+    KeyUp 48 $ Shell $ const "xdotool key super+6",
+    KeyUp 51 $ Shell $ const "dmenu_run",
+    KeyUp 45 $ Action $ \_ -> print "foobarity",
     PitchWheel $ Action $ \n -> print n
   ]
 
@@ -33,10 +34,9 @@ main = Midi.withMidi $ do
   inputDevices <- filter ((== True) . PM.input . snd) <$> Midi.getDevices
   print inputDevices
 
-  let maybeName = if null args then Nothing else Just $ head args
   let findDevice n = find ((== n) . PM.name . snd) inputDevices
 
-  case maybeName >>= findDevice of
+  case head' args >>= findDevice of
     Just (deviceId, PM.DeviceInfo {PM.name}) -> do
       putStrLn $ "Searching for device: " ++ name
       Just (device, _) <- PM.findDevice ((== deviceId) . fst)

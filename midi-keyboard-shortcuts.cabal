@@ -16,6 +16,7 @@ library
   exposed-modules:
       Action
       Main
+      Utils
   other-modules:
       Paths_midi_keyboard_shortcuts
   hs-source-dirs:
@@ -35,6 +36,7 @@ executable midiactions
   main-is: Main.hs
   other-modules:
       Action
+      Utils
       Paths_midi_keyboard_shortcuts
   hs-source-dirs:
       src/
