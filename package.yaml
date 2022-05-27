@@ -22,6 +22,7 @@ dependencies:
   - process
   - PortMidi
   - PortMidi-simple
+  - mtl
   # - containers
   # - text
   # - transformers

@@ -1,6 +1,7 @@
 module Config where
 
 import Action
+import Control.Monad.IO.Class (MonadIO (liftIO))
 import Data.List (intercalate)
 import Utils (toPerc)
 
@@ -29,7 +30,7 @@ handlers =
   [ KeyUp 44 $ Shell $ const "xdotool key super+1",
     KeyUp 48 $ Shell $ const "xdotool key super+6",
     KeyUp 51 $ Shell $ const "dmenu_run",
-    KeyUp 45 $ Action $ \_ -> print "foobarity",
+    KeyUp 45 $ Action $ \_ -> liftIO $ print "foobarity",
     ControlChange 2 $ Shell setVolume,
     ControlChange 3 $ Shell setBrightness,
     ControlChange 4 $ Shell setMicVolume
