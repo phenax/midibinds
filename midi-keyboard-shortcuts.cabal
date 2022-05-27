@@ -17,6 +17,7 @@ library
       Action
       Config
       Main
+      MiMonad
       Utils
   other-modules:
       Paths_midi_keyboard_shortcuts
@@ -39,6 +40,7 @@ executable midiactions
   other-modules:
       Action
       Config
+      MiMonad
       Utils
       Paths_midi_keyboard_shortcuts
   hs-source-dirs:

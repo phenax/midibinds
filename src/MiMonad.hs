@@ -2,7 +2,7 @@ module MiMonad where
 
 import Control.Monad.Except (ExceptT, runExceptT, throwError)
 
-data MiError = DeviceNotFound
+data MiError = DeviceNotFound | ReadEventError
   deriving (Show)
 
 type MiMonad = ExceptT MiError IO
