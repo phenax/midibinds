@@ -3,7 +3,10 @@ hpack:
 	hpack
 
 run: hpack
-	cabal run . -- "MPK Mini Mk II MIDI 1"
+	cabal run . -- connect "MPK Mini Mk II MIDI 1"
+
+debug: hpack
+	cabal run . -- debug "MPK Mini Mk II MIDI 1"
 
 build: hpack build-simple
 

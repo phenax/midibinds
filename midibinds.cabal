@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 
-name:           midi-keybindings
+name:           midibinds
 version:        0.1.0.0
 author:         Akshay Nair
 maintainer:     phenax5@gmail.com
@@ -21,7 +21,7 @@ library
       MiMonad
       Utils
   other-modules:
-      Paths_midi_keybindings
+      Paths_midibinds
   hs-source-dirs:
       src/
   default-extensions:
@@ -39,7 +39,7 @@ library
     , process
   default-language: Haskell2010
 
-executable midibind
+executable midibinds
   main-is: Main.hs
   other-modules:
       Action
@@ -47,7 +47,7 @@ executable midibind
       Midi
       MiMonad
       Utils
-      Paths_midi_keybindings
+      Paths_midibinds
   hs-source-dirs:
       src/
   default-extensions:

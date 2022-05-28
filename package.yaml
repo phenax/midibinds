@@ -1,6 +1,4 @@
-name: midi-keybindings
-
-# cabal-version: 2.0
+name: midibinds
 
 version: 0.1.0.0
 license:             MIT
@@ -25,26 +23,17 @@ dependencies:
   - mtl
   - containers
   - optparse-simple
-  # - hint
-  # - text
-  # - transformers
 
 default-extensions:
   - LambdaCase
   - NamedFieldPuns
   - FlexibleContexts
-#   - QuasiQuotes
-#   - TupleSections
-#   - FlexibleInstances
-#   - TypeSynonymInstances
-#   - DataKinds
-#   - KindSignatures
 
 library:
   source-dirs: src/
 
 executables:
-  midibind:
+  midibinds:
     main: Main.hs
     source-dirs:
       - src/

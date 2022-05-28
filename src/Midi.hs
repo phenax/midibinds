@@ -16,7 +16,6 @@ getInputDevices = filter ((== True) . PM.input . snd) <$> liftIO PM.getDevices
 findDeviceByName :: String -> MiMonad PM.DeviceID
 findDeviceByName name = do
   inputDevices <- filter ((== True) . PM.input . snd) <$> liftIO PM.getDevices
-  liftIO $ print inputDevices
 
   let findDevice n = find ((== n) . PM.name . snd) inputDevices
   case findDevice name of

@@ -1,4 +1,4 @@
-# Midi Keybindings
+# midibinds
 An experiment to use my midi keyboard as a secondary keyboard for executing commands and macros
 
 Configuration is inside `src/Config.hs`
@@ -42,11 +42,12 @@ handlers =
 - Edit `src/Config.hs`
 - Run `make build` to compile
 - Run `make install` to install
-- This should install it to your cabal install directory (Default: `~/.cabal/bin/midiactions`)
+- This should install it to your cabal install directory (Default: `~/.cabal/bin/midibinds`). Make sure that it's in your PATH
 
 
 ### Run
-- `midiactions devices` - See list of connected devices
-- `midiactions connect "Device name"` - This will start listening to a device with the name "Device name"
-- `midiactions --help` - See help menu
+- `midibinds devices` - See list of connected devices
+- `midibinds connect "Device name"` - Connect to a device with the name "Device name" and execute bindings
+- `midibinds debug "Device name"` - Connect to a device and log out all midi messages. Useful for getting key values
+- `midibinds --help` - See help menu
 
