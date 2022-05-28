@@ -14,7 +14,7 @@ let
   commonHsPackages = with haskellPackages; [ ];
 in
 with haskellPackages; mkDerivation {
-  pname = "midi-keyboard-shortcuts";
+  pname = "midi-keybindings";
   version = "0.1.0.0";
   src = ./.;
   isLibrary = true;

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 
-name:           midi-keyboard-shortcuts
+name:           midi-keybindings
 version:        0.1.0.0
 author:         Akshay Nair
 maintainer:     phenax5@gmail.com
@@ -20,7 +20,7 @@ library
       MiMonad
       Utils
   other-modules:
-      Paths_midi_keyboard_shortcuts
+      Paths_midi_keybindings
   hs-source-dirs:
       src/
   default-extensions:
@@ -44,7 +44,7 @@ executable midiactions
       Config
       MiMonad
       Utils
-      Paths_midi_keyboard_shortcuts
+      Paths_midi_keybindings
   hs-source-dirs:
       src/
   default-extensions:
