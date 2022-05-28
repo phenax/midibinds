@@ -8,7 +8,7 @@ Config example -
 ```haskell
 setVolume :: Int -> String
 setVolume vol =
-  "amixer sset Master '" ++ toPerc vol "%'"
+  "amixer sset Master '" ++ show (toPerc vol) "%'"
 
 setBrightness :: Int -> String
 setBrightness brightness =
@@ -38,9 +38,9 @@ handlers =
 ```
 
 ### Install
+- Dependencies - ghc, cabal, 
 - Clone the repo
 - Edit `src/Config.hs`
-- Run `make build` to compile
 - Run `make install` to install
 - This should install it to your cabal install directory (Default: `~/.cabal/bin/midibinds`). Make sure that it's in your PATH
 
