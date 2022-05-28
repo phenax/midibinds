@@ -25,17 +25,17 @@ runHandler :: [Handler] -> Midi.ChannelMessage -> MiMonad ()
 runHandler handlers = \case
   Midi.NoteOn {Midi.key} -> do
     MiState {activeKeys} <- State.get
-    updateKeys (key :)
+    updateKeys (Set.insert key)
     mapHandlers $ \case
       (KeyChord modifiers activator action)
-        | activator == key && Set.fromList activeKeys == Set.fromList modifiers ->
+        | activator == key && activeKeys == Set.fromList modifiers ->
           runAction () action
       (KeyDown n action) | key == n -> runAction () action
       _ -> pure ()
   Midi.NoteOff {Midi.key} -> do
-    updateKeys $ filter (/= key)
+    updateKeys $ Set.filter (/= key)
     MiState {activeKeys} <- State.get
-    if null activeKeys
+    if Set.null activeKeys
       then mapHandlers $ \case
         (KeyUp n action) | key == n -> runAction () action
         _ -> pure ()
