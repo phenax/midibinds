@@ -38,10 +38,9 @@ handlers =
 ```
 
 ### Install
-- Dependencies - ghc, cabal, 
 - Clone the repo
 - Edit `src/Config.hs`
-- Run `make install` to install
+- Run `make install` to install (Required cabal)
 - This should install it to your cabal install directory (Default: `~/.cabal/bin/midibinds`). Make sure that it's in your PATH
 
 
