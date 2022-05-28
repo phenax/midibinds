@@ -24,6 +24,7 @@ dependencies:
   - PortMidi-simple
   - mtl
   - containers
+  - optparse-simple
   # - hint
   # - text
   # - transformers
@@ -43,7 +44,7 @@ library:
   source-dirs: src/
 
 executables:
-  midiactions:
+  midibind:
     main: Main.hs
     source-dirs:
       - src/

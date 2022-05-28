@@ -18,7 +18,7 @@ handlers =
   [
     -- Run a command when a key is released
     KeyUp 32 $ Shell $ const "spotify",
-    KeyUp 36 $ Shell $ const "xdotool key super+6 && qutebrowser",
+    KeyUp 36 $ Shell $ const "xdotool key super+enter", -- Mock key press
     KeyUp 39 $ Shell $ const "dmenu_run",
     
     -- Run a command immedietely on press instead of on release
@@ -36,4 +36,17 @@ handlers =
     KeyChord [48, 52] 55 $ Shell $ const "notify-send choredpress"
   ]
 ```
+
+### Install
+- Clone the repo
+- Edit `src/Config.hs`
+- Run `make build` to compile
+- Run `make install` to install
+- This should install it to your cabal install directory (Default: `~/.cabal/bin/midiactions`)
+
+
+### Run
+- `midiactions devices` - See list of connected devices
+- `midiactions connect "Device name"` - This will start listening to a device with the name "Device name"
+- `midiactions --help` - See help menu
 
