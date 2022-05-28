@@ -3,19 +3,13 @@ module Main where
 import Action
 import Config
 import Control.Concurrent (threadDelay)
-import Control.Monad (forever)
+import Control.Monad (forever, void)
 import Control.Monad.IO.Class (liftIO)
 import Data.List (find)
 import MiMonad
 import qualified Sound.PortMidi as PM
 import qualified Sound.PortMidi.Simple as PM
 import qualified System.Environment as Env
-
-onMessage :: PM.Message -> MiMonad ()
-onMessage (PM.Channel _ msg) = do
-  liftIO $ putStrLn $ "[DEBUG/msg]: " ++ show msg
-  runHandler handlers msg
-onMessage _ = pure ()
 
 findDeviceByName :: String -> MiMonad PM.DeviceID
 findDeviceByName name = do
@@ -34,6 +28,12 @@ readMessages stream = do
       >>= either (\_ -> throw ReadEventError) pure
   liftIO $ PM.mkReadMessages (pure evs)
 
+onMessage :: PM.Message -> MiMonad ()
+onMessage (PM.Channel _ msg) = do
+  liftIO $ putStrLn $ "[DEBUG/msg]: " ++ show msg
+  runHandler handlers msg
+onMessage _ = pure ()
+
 start :: MiMonad ()
 start = do
   -- TODO: Arg parsing
@@ -49,4 +49,4 @@ start = do
 -- TODO: Close stream on exception
 
 main :: IO ()
-main = (PM.withMidi . runMi $ start) >>= either displayError pure
+main = (PM.withMidi . runMi $ start) >>= either displayError pure . void

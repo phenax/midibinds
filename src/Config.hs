@@ -27,11 +27,12 @@ setMicVolume vol =
 -- Toggle mute and mic mute
 handlers :: [Handler]
 handlers =
-  [ KeyUp 44 $ Shell $ const "xdotool key super+1",
-    KeyUp 48 $ Shell $ const "xdotool key super+6",
-    KeyUp 51 $ Shell $ const "dmenu_run",
-    KeyUp 45 $ Action $ \_ -> liftIO $ print "foobarity",
+  [ KeyUp 32 $ Shell $ const "xdotool key super+1",
+    KeyUp 36 $ Shell $ const "xdotool key super+6",
+    KeyUp 39 $ Shell $ const "dmenu_run",
+    KeyUp 37 $ Action $ \_ -> liftIO $ print "foobarity",
     ControlChange 2 $ Shell setVolume,
     ControlChange 3 $ Shell setBrightness,
-    ControlChange 4 $ Shell setMicVolume
+    ControlChange 4 $ Shell setMicVolume,
+    KeyChord [48, 52] 55 $ Shell $ const "notify-send choredpress"
   ]

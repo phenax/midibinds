@@ -23,13 +23,15 @@ dependencies:
   - PortMidi
   - PortMidi-simple
   - mtl
-  # - containers
+  - containers
+  # - hint
   # - text
   # - transformers
 
 default-extensions:
   - LambdaCase
   - NamedFieldPuns
+  - FlexibleContexts
 #   - QuasiQuotes
 #   - TupleSections
 #   - FlexibleInstances

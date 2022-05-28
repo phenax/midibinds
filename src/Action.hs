@@ -2,7 +2,9 @@ module Action where
 
 import Control.Monad (forM_, void)
 import Control.Monad.IO.Class (MonadIO (liftIO))
-import MiMonad (MiMonad)
+import qualified Control.Monad.State as State
+import qualified Data.IntSet as Set
+import MiMonad (MiMonad, MiState (..))
 import qualified Sound.PortMidi.Simple as Midi
 import qualified System.Process as Proc
 
@@ -11,8 +13,7 @@ data MidiEvent
   | KeyUp Int (Action ())
   | ControlChange Int (Action Int)
   | PitchWheel (Action Int)
-
--- KeyChord [Action () -> MidiEvent] (Action ())
+  | KeyChord [Int] Int (Action ())
 
 type Handler = MidiEvent
 
@@ -22,12 +23,23 @@ data Action a
 
 runHandler :: [Handler] -> Midi.ChannelMessage -> MiMonad ()
 runHandler handlers = \case
-  Midi.NoteOn {Midi.key} -> mapHandlers $ \case
-    (KeyDown n action) | key == n -> runAction () action
-    _ -> pure ()
-  Midi.NoteOff {Midi.key} -> mapHandlers $ \case
-    (KeyUp n action) | key == n -> runAction () action
-    _ -> pure ()
+  Midi.NoteOn {Midi.key} -> do
+    MiState {activeKeys} <- State.get
+    updateKeys (key :)
+    mapHandlers $ \case
+      (KeyChord modifiers activator action)
+        | activator == key && Set.fromList activeKeys == Set.fromList modifiers ->
+          runAction () action
+      (KeyDown n action) | key == n -> runAction () action
+      _ -> pure ()
+  Midi.NoteOff {Midi.key} -> do
+    updateKeys $ filter (/= key)
+    MiState {activeKeys} <- State.get
+    if null activeKeys
+      then mapHandlers $ \case
+        (KeyUp n action) | key == n -> runAction () action
+        _ -> pure ()
+      else pure ()
   Midi.PitchWheel {Midi.pitchWheel} -> mapHandlers $ \case
     (PitchWheel action) -> runAction pitchWheel action
     _ -> pure ()
@@ -37,6 +49,7 @@ runHandler handlers = \case
   _ -> pure ()
   where
     mapHandlers = forM_ handlers
+    updateKeys fn = State.modify $ \(MiState {activeKeys}) -> MiState {activeKeys = fn activeKeys}
 
 runAction :: a -> Action a -> MiMonad ()
 runAction val = \case
