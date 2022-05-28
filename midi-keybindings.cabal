@@ -17,6 +17,7 @@ library
       Action
       Config
       Main
+      Midi
       MiMonad
       Utils
   other-modules:
@@ -43,6 +44,7 @@ executable midibind
   other-modules:
       Action
       Config
+      Midi
       MiMonad
       Utils
       Paths_midi_keybindings
